@@ -5,6 +5,7 @@ import { BaseInteraction } from "discord.js";
 import { SlashCommandObject } from "./scripts/types/SlashCommandObject";
 import { slashCommands } from "./commands";
 import { handleDeleteMessage } from "./modules/HandleDeleteMessage.module";
+import { updateStaticPresence } from "./modules/UpdateStaticPresence.module";
 
 dotenv.config();
 let commands: SlashCommandObject;
@@ -16,6 +17,7 @@ const client = new Client({
 client.once(Events.ClientReady, async (client) => {
 	console.log(`✅ Ready! Logged in as ${client.user?.tag}`);
 	commands = await registerCommands(slashCommands);
+	updateStaticPresence(client)
 });
 
 client.on("interactionCreate", async (interaction: BaseInteraction) => {
