@@ -4,6 +4,7 @@ import { registerCommands } from "./scripts/register";
 import { BaseInteraction } from "discord.js";
 import { SlashCommandObject } from "./scripts/types/SlashCommandObject";
 import { slashCommands } from "./commands";
+import { handleDeleteMessage } from "./modules/HandleDeleteMessage.module";
 
 dotenv.config();
 let commands: SlashCommandObject;
@@ -21,9 +22,13 @@ client.on("interactionCreate", async (interaction: BaseInteraction) => {
 	if (interaction.isChatInputCommand()) {
 		await commands[interaction.commandName].onCommandExecuted(interaction);
 	} else if (interaction.isButton()) {
-		await commands[
-			String(interaction.message.interaction?.commandName)
-		].onButtonPressed?.(interaction);
+		if (interaction.customId.includes("delete")) {
+			await handleDeleteMessage(interaction)
+		} else {
+			await commands[
+				String(interaction.message.interaction?.commandName)
+			].onButtonPressed?.(interaction);
+		}
 	} else if (interaction.isStringSelectMenu()) {
 		await commands[
 			String(interaction.message.interaction?.commandName)
