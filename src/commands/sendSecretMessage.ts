@@ -18,7 +18,7 @@ function DeleteButton({owner_id}: {
 	return new ActionRowBuilder().addComponents(
 		new ButtonBuilder()
             .setCustomId(JSON.stringify(initialValue))
-			.setLabel("Press Me")
+			.setLabel("Delete")
 			.setStyle(ButtonStyle.Danger)
 	);
 }
