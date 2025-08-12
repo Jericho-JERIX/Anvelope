@@ -16,7 +16,11 @@ pipeline {
         }
         stage('Build Production') {
             steps {
-                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
+                sh '''
+                echo $(which docker)
+                echo $(which pm2)
+                docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                '''
             }
         }
         stage('Deploy Production') {
