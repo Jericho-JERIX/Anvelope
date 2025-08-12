@@ -17,6 +17,7 @@ pipeline {
         stage('Build Production') {
             steps {
                 sh '''
+                PATH=$PATH:/usr/bin/docker
                 echo $(which docker)
                 echo $PATH
                 docker build -t $IMAGE_NAME:$IMAGE_TAG .
