@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy Production') {
             steps {
-                sh 'npm install pm2'
+                sh 'sudo ln -s /root/.nvm/versions/node/v20.12.2/bin/pm2 /var/lib/jenkins/'
                 sh 'pm2 start npm --name "anvelope-prod" -- start'
             }
         }
