@@ -1,7 +1,9 @@
 pipeline {
     agent { docker { image 'node:22.18.0-alpine3.22' } }
     environment {
-        PATH = "/root/.nvm/versions/node/v20.12.2/bin:$PATH"
+        IMAGE_NAME = "anvelope-prod"
+        IMAGE_TAG  = "latest"
+        CONTAINER_NAME = "anvelope_prod_container"
         TOKEN=credentials('anvelope-token')
         CLIENT_ID=credentials('anvelope-client-id')
     }
@@ -14,13 +16,15 @@ pipeline {
         }
         stage('Build Production') {
             steps {
-                sh 'npm install'
-                sh 'npm run build'
+                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
             }
         }
         stage('Deploy Production') {
             steps {
-                sh '/root/.nvm/versions/node/v20.12.2/bin/pm2 start npm --name "anvelope-prod" -- start'
+                sh '''
+                docker rm -f $CONTAINER_NAME || true
+                docker run -d --name $CONTAINER_NAME -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG
+                '''
             }
         }
     }
