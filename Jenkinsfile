@@ -1,6 +1,7 @@
 pipeline {
     agent { docker { image 'node:22.18.0-alpine3.22' } }
     environment {
+        PATH = "/root/.nvm/versions/node/v20.12.2/bin:$PATH"
         TOKEN=credentials('anvelope-token')
         CLIENT_ID=credentials('anvelope-client-id')
     }
@@ -19,7 +20,6 @@ pipeline {
         }
         stage('Deploy Production') {
             steps {
-                sh 'export PATH=$PATH:/root/.nvm/versions/node/v20.12.2/bin'
                 sh 'pm2 start npm --name "anvelope-prod" -- start'
             }
         }
