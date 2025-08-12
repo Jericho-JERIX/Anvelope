@@ -13,7 +13,8 @@ pipeline {
         }
         stage('Deploy Production') {
             steps {
-                sh 'npm start'
+                sh 'npm install pm2'
+                sh 'pm2 start npm --name "anvelope-prod" -- start'
             }
         }
     }
