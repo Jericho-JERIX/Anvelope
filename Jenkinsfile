@@ -5,6 +5,12 @@ pipeline {
         CLIENT_ID=credentials('anvelope-client-id')
     }
     stages {
+        stage('Pull from GitHub') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Jericho-JERIX/Anvelope.git'
+            }
+        }
         stage('Build Production') {
             steps {
                 sh 'npm install'
