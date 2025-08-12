@@ -13,6 +13,7 @@ pipeline {
         }
         stage('Deploy Production') {
             steps {
+                sh 'export PATH=$PATH:/root/.nvm/versions/node/v20.12.2/bin'
                 sh 'pm2 start npm --name "anvelope-prod" -- start'
             }
         }
