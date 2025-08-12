@@ -18,7 +18,7 @@ pipeline {
             steps {
                 sh '''
                 echo $(which docker)
-                echo $(which pm2)
+                echo $PATH
                 docker build -t $IMAGE_NAME:$IMAGE_TAG .
                 '''
             }
