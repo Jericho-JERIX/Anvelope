@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Deploy Production') {
             steps {
-                sh 'pm2 start npm --name "anvelope-prod" -- start'
+                sh '/root/.nvm/versions/node/v20.12.2/bin/pm2 start npm --name "anvelope-prod" -- start'
             }
         }
     }
