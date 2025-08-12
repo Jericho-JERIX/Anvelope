@@ -19,6 +19,8 @@ pipeline {
                 sh '''
                 PATH=$PATH:/usr/bin/docker
                 echo $(which docker)
+                echo $(ls /usr/bin)
+                echo $(whoami)
                 echo $PATH
                 docker build -t $IMAGE_NAME:$IMAGE_TAG .
                 '''
