@@ -1,8 +1,8 @@
 pipeline {
     agent { docker { image 'node:22.18.0-alpine3.22' } }
     environment {
-        TOKEN=credentials('token')
-        CLIENT_ID=credentials('client-id')
+        TOKEN=credentials('anvelope-token')
+        CLIENT_ID=credentials('anvelope-client-id')
     }
     stages {
         stage('Build Production') {
