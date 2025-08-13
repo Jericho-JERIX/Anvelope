@@ -23,10 +23,8 @@ pipeline {
         stage('Deploy Production') {
             steps {
                 sh '''
-                docker stop anvelope_prod_container
-                docker remove anvelope_prod_container
-                
-                docker run -d --name anvelope_prod_container -p 3000:3000 anvelope-prod:latest
+                docker stop anvelope_prod_container || true && docker rm anvelope_prod_container || true
+                docker run -d --name anvelope_prod_container -p 8007:3000 anvelope-prod:latest
                 '''
             }
         }
