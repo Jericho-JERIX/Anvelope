@@ -5,16 +5,28 @@ pipeline {
         CLIENT_ID=credentials('anvelope-client-id')
     }
     stages {
+        stage('Setup Environment') {
+            steps {
+                sh '''
+                echo $TOKEN
+                echo $CLIENT_ID
+                echo $(env)
+                '''
+            }
+        }
         stage('Build Production') {
             steps {
-                sh 'npm install'
-                sh 'npm run build'
+                sh '''
+                npm install
+                npm run build
+                '''
             }
         }
         stage('Deploy Production') {
             steps {
-                sh 'npm install pm2 -g'
-                sh 'pm2 start npm --name "anvelope-prod" -- start'
+                sh '''
+                echo "Deploying ..."
+                '''
             }
         }
     }
