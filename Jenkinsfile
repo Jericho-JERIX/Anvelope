@@ -14,7 +14,6 @@ pipeline {
             }
         }
         stage('Build Production') {
-            git branch: 'main'
             steps {
                 sh '''
                 npm install
