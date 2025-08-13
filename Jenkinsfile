@@ -8,9 +8,8 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
-                echo $TOKEN
-                echo $CLIENT_ID
-                echo $(env)
+                echo $TOKEN >> .env
+                echo $CLIENT_ID >> .env
                 '''
             }
         }
