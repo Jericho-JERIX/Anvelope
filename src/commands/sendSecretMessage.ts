@@ -56,7 +56,7 @@ export const SendSecretMessage: SlashCommand = {
         });
 
         await interaction.reply({
-            content: "Message sent!",
+            content: "Message has been sent!",
             ephemeral: true,
         });
     }
