@@ -13,8 +13,20 @@ pipeline {
                 '''
             }
         }
-        stage('Build Production') {
+        stage ('Build Development') {
+            git branch: 'dev'
             steps {
+                input('Build Development')
+                sh '''
+                npm install
+                npm run build
+                '''
+            }
+        }
+        stage('Build Production') {
+            git branch: 'main'
+            steps {
+                input('Build Production')
                 sh '''
                 npm install
                 npm run build
