@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'node:22.18.0-alpine3.22' } }
+    agent any
     environment {
         TOKEN=credentials('anvelope-token')
         CLIENT_ID=credentials('anvelope-client-id')
@@ -16,15 +16,17 @@ pipeline {
         stage('Build Production') {
             steps {
                 sh '''
-                npm install
-                npm run build
+                docker build -t anvelope-prod:latest .
                 '''
             }
         }
         stage('Deploy Production') {
             steps {
                 sh '''
-                echo "Deploying ..."
+                docker stop anvelope_prod_container
+                docker remove anvelope_prod_container
+                
+                docker run -d --name anvelope_prod_container -p 3000:3000 anvelope-prod:latest
                 '''
             }
         }
