@@ -14,9 +14,9 @@ pipeline {
             }
         }
         stage ('Build Development') {
-            git branch: 'dev'
             steps {
-                input('Build Development')
+                input message: 'Approve deployment to Development?'
+                git branch: 'dev', url: 'https://github.com/Jericho-JERIX/Anvelope.git'
                 sh '''
                 npm install
                 npm run build
@@ -24,9 +24,9 @@ pipeline {
             }
         }
         stage('Build Production') {
-            git branch: 'main'
             steps {
-                input('Build Production')
+                input message: 'Approve deployment to Production?'
+                git branch: 'dev', url: 'https://github.com/Jericho-JERIX/Anvelope.git'
                 sh '''
                 npm install
                 npm run build
