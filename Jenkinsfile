@@ -1,30 +1,31 @@
 pipeline {
     agent any
     environment {
-        TOKEN=credentials('anvelope-token')
-        CLIENT_ID=credentials('anvelope-client-id')
+        ENV_FILE=credentials('anvelope-env-file')
+        PORT=8007
+        IMAGE_NAME="anvelope-prod"
+        CONTAINER_NAME="anvelope_prod_container"
     }
     stages {
         stage('Setup Environment') {
             steps {
                 sh '''
-                echo TOKEN=$TOKEN >> .env
-                echo CLIENT_ID=$CLIENT_ID >> .env
+                cp $ENV_FILE .env
                 '''
             }
         }
-        stage('Build Production') {
+        stage('Build Image') {
             steps {
                 sh '''
-                docker build -t anvelope-prod:latest .
+                docker build -t $IMAGE_NAME:latest .
                 '''
             }
         }
-        stage('Deploy Production') {
+        stage('Run Container') {
             steps {
                 sh '''
-                docker stop anvelope_prod_container || true && docker rm anvelope_prod_container || true
-                docker run -d --name anvelope_prod_container -p 8007:3000 anvelope-prod:latest
+                docker stop $CONTAINER_NAME || true && docker rm $CONTAINER_NAME || true
+                docker run -d --name $CONTAINER_NAME -p $PORT:3000 $IMAGE_NAME:latest
                 '''
             }
         }
