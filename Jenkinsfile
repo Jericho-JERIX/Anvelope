@@ -12,6 +12,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'anvelope-env-file', variable: 'SECRET_FILE')]) {
                     sh '''
+                    #!/bin/bash
                     if [ -f "$SECRET_FILE" ]; then
                         set -a
                         source "$SECRET_FILE"
