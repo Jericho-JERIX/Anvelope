@@ -12,15 +12,17 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'anvelope-env-file', variable: 'SECRET_FILE')]) {
                     sh '''
-                    
+
                     if [ -f "$SECRET_FILE" ]; then
-                        set -a
-                        . "$SECRET_FILE"
-                        set +a
+                        cp "$SECRET_FILE" .env
+                    else
+                        echo "❌ ERROR: SECRET_FILE not found"
+                        exit 1
                     fi
                     
-                    # Build and run with docker-compose
-                    sudo -E docker-compose up -d --build
+                    sudo docker-compose up -d --build
+                    
+                    rm -f .env
                     '''
                 }
             }
