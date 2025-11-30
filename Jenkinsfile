@@ -21,8 +21,6 @@ pipeline {
                     fi
                     
                     sudo docker-compose up -d --build
-                    
-                    rm -f .env
                     '''
                 }
             }
