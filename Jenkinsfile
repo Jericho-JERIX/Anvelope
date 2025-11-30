@@ -13,7 +13,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'anvelope-env-file', variable: 'SECRET_FILE')]) {
                     sh '''
                     # Ensure workspace has proper permissions
-                    sudo chown -R $(whoami):$(whoami) . || chmod -R 755 .
+                    sudo chmod -R 755 .
                     
                     # Read the secret file and export all variables
                     if [ -f "$SECRET_FILE" ]; then
