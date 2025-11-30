@@ -20,7 +20,7 @@ pipeline {
                     fi
                     
                     # Build and run with docker-compose
-                    sudo docker-compose up -d --build
+                    sudo -E docker-compose up -d --build
                     '''
                 }
             }
