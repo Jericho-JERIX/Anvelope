@@ -1,32 +1,27 @@
 pipeline {
     agent any
-    environment {
-        ENV_FILE=credentials('anvelope-env-file')
-        PORT=8007
-        IMAGE_NAME="anvelope-prod"
-        CONTAINER_NAME="anvelope_prod_container"
-    }
     stages {
-        stage('Setup Environment') {
+        stage('Stop Existing Containers') {
             steps {
                 sh '''
-                cp $ENV_FILE .env
+                docker-compose down || true
                 '''
             }
         }
-        stage('Build Image') {
+        stage('Build and Run Container') {
             steps {
-                sh '''
-                docker build -t $IMAGE_NAME:latest .
-                '''
-            }
-        }
-        stage('Run Container') {
-            steps {
-                sh '''
-                docker stop $CONTAINER_NAME || true && docker rm $CONTAINER_NAME || true
-                docker run -d --name $CONTAINER_NAME -p $PORT:3000 $IMAGE_NAME:latest
-                '''
+                withCredentials([file(credentialsId: 'anvelope-env-file', variable: 'SECRET_FILE')]) {
+                    sh '''
+                    if [ -f "$SECRET_FILE" ]; then
+                        set -a
+                        source "$SECRET_FILE"
+                        set +a
+                    fi
+                    
+                    # Build and run with docker-compose
+                    docker-compose up -d --build
+                    '''
+                }
             }
         }
     }

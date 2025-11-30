@@ -1,0 +1,12 @@
+services:
+  bot:
+    image: anvelope/bot:latest
+    build: .
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - TOKEN=${TOKEN}
+      - CLIENT_ID=${CLIENT_ID}
+      - PORT=${PORT}
+    # env_file:
+    #   - .env
