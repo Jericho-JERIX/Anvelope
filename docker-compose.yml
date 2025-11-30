@@ -4,9 +4,5 @@ services:
     build: .
     ports:
       - 8007:3000
-    environment:
-      - TOKEN=${TOKEN}
-      - CLIENT_ID=${CLIENT_ID}
-      - PORT=${PORT}
-    # env_file:
-    #   - .env
+    env_file:
+      - .env
